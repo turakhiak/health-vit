@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Header, HTTPException, Body
 from typing import Optional
-from ..services.drive_service import drive_service
-from ..services.coach_service import coach_service
-from ..models import SyncRequest
+from services.drive_service import drive_service
+from services.coach_service import coach_service
+from models import SyncRequest
 
 router = APIRouter()
 

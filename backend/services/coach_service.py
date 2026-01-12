@@ -1,7 +1,7 @@
 import os
 import json
 from openai import OpenAI
-from ..models import CoachContext
+from models import CoachContext
 
 class CoachService:
     def __init__(self):
