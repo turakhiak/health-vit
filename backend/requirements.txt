@@ -1,0 +1,12 @@
+fastapi>=0.100.0
+uvicorn[standard]>=0.20.0
+pydantic>=2.0.0
+python-multipart
+httpx
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+openai
+python-dotenv
+pytest
