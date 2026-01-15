@@ -1,8 +1,8 @@
 import { db } from './db';
-import { Component, MealCategory } from './types';
+import { Component, ComponentSchema, ComponentInput, MealCategory } from './types';
 import { v4 as uuidv4 } from 'uuid';
 
-export const COMPONENT_SEEDS: Component[] = [
+export const COMPONENT_SEEDS: ComponentInput[] = [
     // Protein Base
     { id: uuidv4(), name: "SuperYou Protein Shake", category: MealCategory.enum.ProteinBase, defaultMacros: { protein: 25, netCarbs: 2, fat: 2, calories: 120 }, tags: ["anchor"] },
     { id: uuidv4(), name: "Whey Isolate Shake", category: MealCategory.enum.ProteinBase, defaultMacros: { protein: 25, netCarbs: 2, fat: 1, calories: 110 } },
@@ -38,7 +38,9 @@ export const COMPONENT_SEEDS: Component[] = [
 export async function seedDatabase() {
     const count = await db.components.count();
     if (count === 0) {
-        await db.components.bulkAdd(COMPONENT_SEEDS);
+        // Apply defaults (e.g. isUserDefined=false) using Zod parse
+        const validSeeds = COMPONENT_SEEDS.map(seed => ComponentSchema.parse(seed));
+        await db.components.bulkAdd(validSeeds);
         console.log("Database seeded with default components");
     }
 }

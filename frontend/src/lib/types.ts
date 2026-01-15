@@ -18,9 +18,11 @@ export const ComponentSchema = z.object({
     }),
     defaultPortion: z.string().optional(), // e.g. "1 scoop"
     tags: z.array(z.string()).optional(),
+    // ... (previous code)
     isUserDefined: z.boolean().default(false),
 });
 export type Component = z.infer<typeof ComponentSchema>;
+export type ComponentInput = z.input<typeof ComponentSchema>;
 
 // --- Meal Entry ---
 export const MealComponentUsageSchema = z.object({
