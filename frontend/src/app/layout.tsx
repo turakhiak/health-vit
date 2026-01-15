@@ -12,6 +12,8 @@ export const metadata: Metadata = {
     // We will add manifest later
 };
 
+import { Providers } from "./providers";
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -20,10 +22,12 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <div className="min-h-screen bg-gray-50 pb-20">
-                    {children}
-                </div>
-                <BottomNav />
+                <Providers>
+                    <div className="min-h-screen bg-gray-50 pb-20">
+                        {children}
+                    </div>
+                    <BottomNav />
+                </Providers>
             </body>
         </html>
     );

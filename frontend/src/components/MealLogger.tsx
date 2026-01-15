@@ -6,8 +6,11 @@ import { Component, MealCategory, MealEntry } from '@/lib/types';
 import { Plus, Minus, Calculator, Save, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { v4 as uuidv4 } from 'uuid';
+import { syncData } from '@/lib/sync';
+import { useSession } from 'next-auth/react';
 
 export function MealLogger() {
+    const { data: session } = useSession();
     const [selectedCategory, setSelectedCategory] = useState<string>(MealCategory.enum.ProteinBase);
     const [searchQuery, setSearchQuery] = useState("");
     const [currentMeal, setCurrentMeal] = useState<{ component: Component, multiplier: number }[]>([]);
@@ -71,7 +74,17 @@ export function MealLogger() {
         await db.meals.add(entry);
         setCurrentMeal([]);
         setShowConfirm(false);
-        alert("Meal Logged!"); // Temporary feedback
+        alert("Meal Logged!");
+
+        // Trigger Sync if online and logged in
+        if (session && (session as any).accessToken) {
+            try {
+                await syncData((session as any).accessToken);
+                console.log("Auto-sync triggered");
+            } catch (err) {
+                console.error("Auto-sync failed", err);
+            }
+        }
     };
 
     return (
